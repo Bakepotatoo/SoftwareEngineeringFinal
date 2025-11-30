@@ -1,0 +1,152 @@
+<!--Comp 3450,  Authors: Oleanna San Antonio, Nilam Rai, Adebayo Jesutofunmi Juliet-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="with = device-width, initial-scale = 1.0" />
+    <title>Roommate Match-Making Website</title>
+    <link rel="stylesheet" href="css/launcherone.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
+    />
+    <script src="js/launcherone.js"></script>
+  </head>
+
+  <body>
+    <script>
+      // JavaScript code for sticky navigation
+      window.onscroll = () => stickyNav();
+
+      const navbar = document.querySelector(".sticky-nav");
+      const sticky = navbar.offsetTop;
+
+      const stickyNav = () =>
+        window.pageYOffset >= sticky
+          ? navbar.classList.add("sticky")
+          : navbar.classList.remove("sticky");
+
+      function highlightSignUp() {
+        var signUpButton = document.getElementById("signup_button");
+        signUpButton.style.background = "#eab9e5";
+        signUpButton.style.border = "2px solid blue";
+
+        setTimeout(function () {
+          signUpButton.style = "";
+        }, 2000);
+      }
+
+      // JavaScript for hover effect
+      const bodyCols = document.querySelector(".body-col");
+
+      bodyCols.forEach((bodyCol) => {
+        bodyCol.addEventListener("mouseover", () => {
+          bodyCol.style.background = "#b360aa";
+          bodyCol.style.boxShadow = "0 0 30px rgba(0, 0, 0, 0.3)";
+        });
+
+        bodyCol.addEventListener("mouseout", () => {
+          bodyCol.style.backgroundColor = "";
+          bodyCol.style.boxShadow = "";
+        });
+      });
+    </script>
+
+    <nav class="sticky-nav" id="navbar">
+      <div class="nav-links" id="navLinks">
+        <ul>
+          <li><a href="#home">HOME</a></li>
+          <li><a href="#about_section">ABOUT US</a></li>
+          <li><a href="#getstarted_section">GET STARTED</a></li>
+          <li><a href="#contact_section">CONTACT</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="header" id="home">
+      <div class="text-box">
+        <img src="images/starfighter1.png" alt="" />
+        <h1>LAUNCHER-ONE</h1>
+        <h2>
+          <p>A roommate match-making service for TRU students</p>
+        </h2>
+        <a
+          href="launcherone_registration.html"
+          class="button1"
+          id="signup_button"
+          >Sign Up</a
+        >
+        <a href="launcherone_register.html" class="button2">Log In</a>
+      </div>
+    </section>
+
+    <!-- Description of the website / About Us Section-->
+    <section class="body1" id="about_section">
+      <h1>Welcome to the LauncherOne website</h1>
+      <p>
+        LauncherOne is a trusted platform designed to simplify the process of
+        finding compatible roommates for individuals seeking shared
+        accommodation. Our mission is to provide a reliable and accessible
+        solution that connects people based on their preferences and needs.
+      </p>
+
+      <div class="row">
+        <div class="body-col">
+          <h3>Trustworthy</h3>
+          <p>
+            At LauncherOne, trust is paramount. We understand the importance of
+            security and privacy when it comes to finding a roommate. That's why
+            we implement stringent verification processes and encryption
+            protocols to ensure the safety of your personal information. You can
+            trust LauncherOne to provide a secure environment for your roommate
+            search.
+          </p>
+        </div>
+        <div class="body-col">
+          <h3>Simple</h3>
+          <p>
+            We believe in keeping things simple and straightforward.
+            LauncherOne's intuitive interface makes it easy for you to create a
+            profile, specify your preferences, and browse through potential
+            matches. With just a few clicks, you can find the perfect roommate
+            who shares your lifestyle and living preferences. Say goodbye to the
+            hassle of searching for roommates and hello to a seamless
+            roommate-matching experience with LauncherOne.
+          </p>
+        </div>
+        <div class="body-col">
+          <h3>Accessible</h3>
+          <p>
+            Accessibility is at the core of LauncherOne's mission. We strive to
+            make our platform inclusive and accessible to all individuals,
+            regardless of their background or circumstances. Our commitment to
+            accessibility ensures that TRU students can enjoy the benefits of
+            shared living arrangements without barriers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="settingUp" id="getstarted_section">
+      <a href="#home" class="button3" onclick="highlightSignUp()"
+        >Get Started With Us</a
+      >
+    </section>
+
+    <!-- Contact Us Section -->
+    <section class="contact" id="contact_section">
+      <div class="contact-info">
+        <h2>Contact Us</h2>
+        <p>Feel free to reach out to us for any inquiries or assistance.</p>
+        <p>Address: 805 TRU Way, Kamloops, BC V2C 0C8 Canada</p>
+        <p>Email: launcherone.info@gmail.com</p>
+        <p>Phone: 250-828-5000</p>
+      </div>
+    </section>
+  </body>
+</html>

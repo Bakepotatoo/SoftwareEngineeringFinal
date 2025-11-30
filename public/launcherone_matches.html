@@ -1,0 +1,69 @@
+<!-- Comp 3450 Authors: Oleanna San Antonio, Nilam Rai, Adebayo Jesutofunmi Juliet -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="with = device-width, initial-scale = 1.0" />
+    <title>Roommate Match-Making Website</title>
+    <link rel="stylesheet" href="css/launcherone.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
+    />
+    <script src="js/launcherone.js"></script>
+  </head>
+
+  <body>
+    <header class="head">
+      <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+          <a href="launcherone_profile.html">Profile</a>
+          <a href="launcherone_chat.html">Chats</a>
+          <a href="launcherone_settings.html">Settings</a>
+        </div>
+      </div>
+      <h1>LAUNCHER-ONE</h1>
+    </header>
+
+    <div id="no-matches" class="no-matches hidden">
+      No matches yet!
+      <br />
+      Once we find someone compatible, they’ll appear here 💜
+    </div>
+
+    <div class="match-header-wrapper">
+      <h1 class="match-header">We found a match for you!</h1>
+    </div>
+
+    <div class="match-container">
+      <div class="match">
+        <div class="profile-info">
+          <img
+            id="profile-image"
+            src="images/default_profile_pic.png"
+            alt="Match 1 Profile Picture"
+          />
+          <div class="profile-details">
+            <h2 id="profile-name">Match Name</h2>
+            <p id="profile-bio">Match Bio</p>
+            <p id="profile-roommate-preference">
+              Roommate Preference: Match Preference
+            </p>
+            <p id="profile-location">Preferred Location: Match Location</p>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button id="acceptButton" class="accept-button">Accept</button>
+          <button class="delete-button">Delete</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="js/domMatches.js"></script>
+  </body>
+</html>

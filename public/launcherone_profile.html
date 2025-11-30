@@ -1,0 +1,230 @@
+<!--Comp 3450,  Authors: Oleanna San Antonio, Nilam Rai, Adebayo Jesutofunmi Juliet-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="with = device-width, initial-scale = 1.0" />
+    <title>Roommate Match-Making Website</title>
+    <link rel="stylesheet" href="css/launcherone.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
+    />
+    <script src="js/launcherone.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <header class="head">
+      <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+          <a href="launcherone_settings.html">Settings</a>
+        </div>
+      </div>
+      <h1>LAUNCHER-ONE</h1>
+    </header>
+    <script type="module" src="js/domProfile.js"></script>
+    <section class="profile-section">
+      <div class="container">
+        <div class="profile-header">
+          <div class="left-column">
+            <!-- Profile picture -->
+            <div class="profile-picture">
+              <img
+                id="profile-image-preview"
+                src="images/default_profile_pic.png"
+                alt="Profile Picture"
+                onclick="document.getElementById('profile-image-upload').click()"
+              />
+              <input
+                type="file"
+                id="profile-image-upload"
+                accept="image/*"
+                onchange="previewProfilePicture(event)"
+                style="display: none"
+              />
+            </div>
+            <!-- Name -->
+            <h2 class="profile-name-value" id="headNameValue"></h2>
+            <!-- Email -->
+            <h3 class="profile-email-value" id="emailValue"></h3>
+            <!-- Edit profile button -->
+            <button class="edit-profile-btn" onclick="editProfile()">
+              Edit Profile
+            </button>
+          </div>
+          <div class="right-column">
+            <!-- Links/buttons -->
+            <div class="profile-links" style="display: none">
+              <ul>
+                <li>
+                  <button id="seeMatchesButton" onclick="">See Matches</button>
+                </li>
+              </ul>
+            </div>
+            <!-- Preferences input fields -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Name:</span>
+              <span class="profile-info-value" id="name-value"></span>
+              <input
+                type="text"
+                class="profile-input"
+                id="name"
+                placeholder=""
+              />
+            </div>
+            <!-- Bio -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Bio:</span>
+              <span class="profile-info-value" id="bio-value"></span>
+              <input
+                type="text"
+                class="profile-input"
+                id="bio"
+                placeholder="E.g. 2nd Year TRU Student. Looking for a female roommate."
+              />
+            </div>
+            <!-- Age -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Age:</span>
+              <span class="profile-info-value" id="age-value"></span>
+              <input
+                type="number"
+                class="profile-input"
+                id="age"
+                min="18"
+                max="99"
+              />
+            </div>
+            <!-- Year in University -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Year in University:</span>
+              <span class="profile-info-value" id="year-value"></span>
+              <select class="profile-input" id="university-year">
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="5th Year">5th Year</option>
+              </select>
+            </div>
+            <!-- Gender -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Gender:</span>
+              <span class="profile-info-value" id="gender-value"></span>
+              <select class="profile-input" id="gender">
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <!-- Roommate Preference -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Roommate Preference:</span>
+              <span class="profile-info-value" id="roommate-value"></span>
+              <select class="profile-input" id="roommate-preference">
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <!-- Preferred Location -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Preferred Location:</span>
+              <span class="profile-info-value" id="location-value"></span>
+              <select class="profile-input" id="location">
+                <option value="Any">Any</option>
+                <option value="Thompson Rivers University">
+                  Thompson Rivers University
+                </option>
+                <option value="City Centre / Downtown">
+                  City Centre / Downtown
+                </option>
+                <option value="Lower Sahali">Lower Sahali</option>
+                <option value="Upper Sahali">Upper Sahali</option>
+                <option value="Aberdeen">Aberdeen</option>
+                <option value="North Shore">North Shore</option>
+                <option value="Valleyview">Valleyview</option>
+                <option value="Westsyde">Westsyde</option>
+                <option value="Brocklehurst">Brocklehurst</option>
+                <option value="Barnhartvale">Barnhartvale</option>
+                <option value="Dallas">Dallas</option>
+              </select>
+            </div>
+            <!-- Pet-Friendly Accommodation -->
+            <div class="profile-info-container">
+              <span class="profile-info-label"
+                >Pet-Friendly Accommodation:</span
+              >
+              <span class="profile-info-value" id="pet-value"></span>
+              <select class="profile-input" id="pet-friendly">
+                <option value="Any">Any</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <!-- Type of Accommodation -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Type of Accommodation:</span>
+              <span class="profile-info-value" id="accomm-value"></span>
+              <input
+                type="text"
+                class="profile-input"
+                id="accommodation-type"
+                placeholder="E.g. 2-Bedroom"
+              />
+            </div>
+            <!-- Student Status -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Student Status:</span>
+              <span class="profile-info-value" id="student-value"></span>
+              <select class="profile-input" id="student-status">
+                <option value="Undergraduate">Undergraduate</option>
+                <option value="Graduate">Graduate</option>
+              </select>
+            </div>
+            <!-- Budget Range -->
+            <div class="profile-info-container">
+              <span class="profile-info-label">Budget Range:</span>
+              <div style="float: left">
+                <span class="profile-info-value" id="minBudget-value"></span>
+                <span class="profile-info-value">-</span>
+                <span class="profile-info-value" id="maxBudget-value"></span>
+              </div>
+              <div class="budget-inputs">
+                <input
+                  type="number"
+                  class="profile-input"
+                  id="minBudget"
+                  name="minBudget"
+                  min="0"
+                  max="1500"
+                  step="100"
+                  placeholder="Minimum"
+                />
+                <input
+                  type="number"
+                  class="profile-input"
+                  id="maxBudget"
+                  name="maxBudget"
+                  min="0"
+                  max="1500"
+                  step="100"
+                  placeholder="Maximum"
+                />
+              </div>
+            </div>
+            <button class="saveButton">Save Preferences</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

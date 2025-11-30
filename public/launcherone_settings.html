@@ -1,0 +1,150 @@
+<!--Comp 3450,  Authors: Oleanna San Antonio, Nilam Rai, Adebayo Jesutofunmi Juliet-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="with = device-width, initial-scale = 1.0">
+    <title>Roommate Match-Making Website</title>
+    <link rel="stylesheet" href="css/launcherone.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css">
+    <script src="js/launcherone.js"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCBY5xCnq3BMN__V6bLR6ZpUJS5UoQRbVU",
+            authDomain: "roommate-match-making.firebaseapp.com",
+            databaseURL:
+                "https://roommate-match-making-default-rtdb.firebaseio.com",
+            projectId: "roommate-match-making",
+            storageBucket: "roommate-match-making.appspot.com",
+            messagingSenderId: "1086011648278",
+            appId: "1:1086011648278:web:a37275f476af35c2fc8837",
+            measurementId: "G-03Y8JYTZS5",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase();
+
+        // Function to handle logout
+        document.getElementById('logout-link').addEventListener('click', function () {
+            const confirmation = window.confirm("Are you sure you want to logout?");
+            if (confirmation) {
+                auth.signOut().then(function () {
+                    // Sign-out successful.
+                    const currentUser = auth.currentUser;
+                    //console.log('User logged out:', currentUser ? currentUser.email : 'No user');
+                    window.location.href = "launcherone.html"; // Redirect to logout page
+                }).catch(function (error) {
+                    // An error happened.
+                    console.error('Logout Error:', error);
+                });
+            }
+        });
+
+        // Function to handle account deletion
+        document.getElementById('delete-account-link').addEventListener('click', function () {
+            const confirmation = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+            if (confirmation) {
+                var user = auth.currentUser;
+                user.delete().then(function () {
+                    // Account deleted successfully.
+                    //console.log('Account deleted:', user.email);
+                    window.location.href = "launcherone.html"; // Redirect to account deletion page
+                }).catch(function (error) {
+                    // An error happened.
+                    console.error('Delete Account Error:', error);
+                });
+            }
+        });
+
+        // Listen for changes in authentication state
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, fetch user data from Firebase Authentication
+                const username = user.email;
+                console.log('Logged in user: ' + username);
+            } else {
+                // No user is signed in, handle this case if necessary
+                console.log('No user signed in');
+            }
+        });
+    </script>
+
+    <header class="head">
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="launcherone_profile.html">Profile</a>
+                <a href="launcherone_matches.html">Matches</a>
+                <a href="launcherone_chat.html">Chat</a>
+            </div>
+        </div>
+        <h1>LAUNCHER-ONE</h1>
+    </header>
+
+    <section class="section11" id="section1">
+        <header class="Headd">
+            <h2>Settings</h2>
+        </header>
+        <div class="settings" id="faq-link" onclick="toggleFAQ()">
+            <span class="faq-button">FAQ</span>
+            <!-- FAQ Section -->
+            <div class="faq-section" id="faq-section" style="display: none;">
+                <div class="faq-item">
+                    <h3>How does the roommate matching process work?</h3>
+                    <p>Our platform utilizes simple algorithms to match users based on their roommate preferences,
+                        preferred locations, and other criteria provided in their profiles. Once you
+                        create an account and fill out your profile, our system generates personalized match suggestions
+                        for you.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I specify specific preferences for my roommate?</h3>
+                    <p>Absolutely! You can specify various preferences such as budget, pet-friendly,
+                        preferred accomodation type, similar interests, and more. Our goal is to find you a compatible
+                        roommate who shares your lifestyle preferences and habits.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is my personal information secure?</h3>
+                    <p>Yes, protecting your privacy and personal information is our top priority. We employ
+                        industry-standard security measures, including encryption and secure storage practices, to
+                        safeguard your data. Rest assured that we do not share your information with third parties
+                        without your explicit consent.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do I delete my account?</h3>
+                    <p>If you wish to delete your account permanently, you cna do so through the 'Delete Account' button
+                        down below.Please note that thisaction is irreversible and will remove all your data from our
+                        system.</p>
+                </div>
+            </div>
+        </div>
+        <div class="settings" id="logout-link">
+            <a>
+                <span>Logout</span>
+            </a>
+        </div>
+        <div class="settings" id="delete-account-link">
+            <a>
+                <span>Delete Account</span>
+            </a>
+        </div>
+    </section>
+
+
+</body>
+
+</html
