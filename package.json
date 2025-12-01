@@ -7,7 +7,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": " set \" NODE_OPTIONS=--experimental-vm-modules\" && jest tests/chatFunctionality.test.js "
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js tests/loginFunctionality.test.js"
   },
   "keywords": [],
   "author": "",
