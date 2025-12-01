@@ -14,6 +14,11 @@ import {
   where,
   deleteDoc,
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+import {
+  normalizeUserPreferences,
+  calculateCompatibilityScore,
+  findBestMatches,
+} from "./matchesFunctionality.js";
 
 // -------------------- Firebase config (NEW PROJECT) --------------------
 const firebaseConfig = {
@@ -84,24 +89,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 2) Find other users with same roommatePreference + location
+      // 2) Find other users and use pure match logic to rank them
       const usersRef = collection(db, "users");
-      const q = query(
-        usersRef,
-        where("roommatePreference", "==", roommatePreference),
-        where("location", "==", location) //
-      );
+      const querySnapshot = await getDocs(usersRef);
 
-      const querySnapshot = await getDocs(q);
+      const allUsers = [];
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        data.id = docSnap.id;
+        allUsers.push(data);
+      });
+
+      const matches = findBestMatches({ ...currentUserData, id: user.uid }, allUsers);
 
       let matchFound = false;
-
-      querySnapshot.forEach((docSnap) => {
-        if (matchFound) return; // only use first match
-        if (docSnap.id === user.uid) return; // skip self
-
-        const otherUser = docSnap.data();
+      if (matches.length > 0 && matches[0].score > 0) {
         matchFound = true;
+        const otherUser = matches[0].user;
 
         // Save for later (chat page)
         matchName = otherUser.name || "";
@@ -127,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (matchContainer) matchContainer.style.display = "block";
-      });
+      }
 
       if (matchFound) {
         showHeaderMessage("We found a match for you!");
