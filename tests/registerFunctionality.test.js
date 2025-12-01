@@ -2,7 +2,9 @@ import { jest } from "@jest/globals";
 import { handleRegister } from "../public/js/registerFunctionality.js";
 
 describe("handleRegister", () => {
+  // Test case for successful registration
   it("calls auth, Firestore, alert, and redirect on success", async () => {
+    // Mock functions for Firebase auth, Firestore, alert, and redirect
     const mockCreateUser = jest.fn().mockResolvedValue({
       user: { uid: "USER123" },
     });
@@ -10,6 +12,7 @@ describe("handleRegister", () => {
     const mockAlert = jest.fn();
     const mockRedirect = jest.fn();
 
+    // Call handleRegister with test data and mocks
     await handleRegister(
       {
         email: "test@example.com",
@@ -26,6 +29,7 @@ describe("handleRegister", () => {
       }
     );
 
+    // Check that auth, Firestore, alert, and redirect were called correctly
     expect(mockCreateUser).toHaveBeenCalledWith(
       { mock: "auth" },
       "test@example.com",
@@ -40,12 +44,15 @@ describe("handleRegister", () => {
     expect(mockRedirect).toHaveBeenCalledWith("launcherone_profile.html");
   });
 
+  // Test case when passwords do not match
   it("alerts and stops when passwords do not match", async () => {
+    // Mock functions
     const mockCreateUser = jest.fn();
     const mockAddUser = jest.fn();
     const mockAlert = jest.fn();
     const mockRedirect = jest.fn();
 
+    // Call handleRegister with mismatched passwords
     await handleRegister(
       {
         email: "test@example.com",
@@ -62,6 +69,7 @@ describe("handleRegister", () => {
       }
     );
 
+    // Check that alert is shown and nothing else is called
     expect(mockAlert).toHaveBeenCalledWith(
       "Passwords do not match. Please enter the same passwords in both fields."
     );

@@ -1,45 +1,43 @@
-// public/js/registerFunctionality.js
-
-// PURE LOGIC ONLY – no firebase imports, no DOM
-
+// Register a new user
 export async function handleRegister(formValues, deps) {
+  // Get input values
   const { email, password, username, confirmPassword } = formValues;
 
-  const {
-    auth,
-    createUserWithEmailAndPassword,
-    addUserToFirestore,
-    alertFn,
-    redirectFn,
-  } = deps;
+  // Get dependencies
+  const { auth, createUserWithEmailAndPassword, addUserToFirestore, alertFn, redirectFn } = deps;
 
+  // Stop if passwords don't match
   if (password !== confirmPassword) {
-    alertFn(
-      "Passwords do not match. Please enter the same passwords in both fields."
-    );
+    alertFn("Passwords do not match. Please enter the same passwords in both fields.");
     return;
   }
 
+  // Create the user
   const userCredential = await createUserWithEmailAndPassword(
-    auth,
-    email,
+    auth, 
+    email, 
     password
   );
 
+  // Get the user object
   const user = userCredential.user;
 
+  // Show success message
   alertFn("Your account has been created!");
 
+  // Add user to Firestore
   await addUserToFirestore(user.uid, username, email);
 
+  // Go to profile page
   redirectFn("launcherone_profile.html");
 }
 
+//Previous
 
 // import { register } from "../public/js/loginFunctionality.js";
 // import { createUserWithEmailAndPassword } from "firebase/auth";
 
-// // VERY basic mock
+// basic mock
 // jest.mock("firebase/auth", () => ({
 //   createUserWithEmailAndPassword: jest.fn(),
 // }));
@@ -59,7 +57,7 @@ export async function handleRegister(formValues, deps) {
 //     btn.addEventListener("click", register);
 //     btn.click();
 
-//     // This line is incomplete / intentionally simple
+// 
 //     expect(createUserWithEmailAndPassword).toHaveBeenCalled();
 //   });
 
@@ -71,7 +69,7 @@ export async function handleRegister(formValues, deps) {
 //     btn.addEventListener("click", register);
 //     btn.click();
 
-//     // This assertion is intentionally incomplete
+//  
 //     expect(alertMock).toHaveBeenCalled();
 //   });
 // });
