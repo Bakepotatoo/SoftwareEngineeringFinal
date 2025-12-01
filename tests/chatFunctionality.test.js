@@ -1,6 +1,9 @@
 // chatFunctionality.test.js
-// Jest tests for chatFunctionality.js (ESM style)
+// Jest unit tests for chatFunctionality.js
+// These confirm the functionality used by domChat.js works independently of Firebase + DOM.
+// TDD workflow: Each test validates a small pure logic function.
 
+// Import pure logic functions we are testing
 import {
   getChatIdForUsers,
   pickMatchedUser,
@@ -10,6 +13,8 @@ import {
   createMessagePayload
 } from "../public/js/chatFunctionality.js";
 
+// ------------------ TESTS FOR getChatIdForUsers ------------------
+// Ensures chat ID is stable and consistent for both users
 describe("getChatIdForUsers", () => {
   test("returns a deterministic chatId regardless of parameter order", () => {
     const id1 = getChatIdForUsers("user1", "user2");
@@ -26,6 +31,9 @@ describe("getChatIdForUsers", () => {
   });
 });
 
+// ------------------ TESTS FOR pickMatchedUser ------------------
+// Logic for selecting the first correct match from query results
+
 describe("pickMatchedUser", () => {
   test("returns first candidate whose uid is not the current user's uid", () => {
     const currentUid = "uCurrent";
@@ -41,9 +49,9 @@ describe("pickMatchedUser", () => {
   test("skips candidates without uid and continues searching", () => {
     const currentUid = "me";
     const result = pickMatchedUser(currentUid, [
-      { somethingElse: "no-uid" },
-      null,
-      { uid: "me" },
+      { somethingElse: "no-uid" }, // no uid field → skip
+      null,                        // skip invalid entries
+      { uid: "me" },               // skip self
       { uid: "other", extra: true }
     ]);
 
@@ -62,6 +70,9 @@ describe("pickMatchedUser", () => {
   });
 });
 
+// ------------------ TESTS FOR buildMatchName ------------------
+// Validates display name formatting for matched user UI
+
 describe("buildMatchName", () => {
   test("uses displayName when it is present and non-empty", () => {
     const name = buildMatchName({
@@ -71,7 +82,7 @@ describe("buildMatchName", () => {
       lastName: "NotUse"
     });
 
-    expect(name).toBe("Roomie Name"); // trimmed
+    expect(name).toBe("Roomie Name"); // trimmed display name
   });
 
   test("falls back to 'firstName lastName' when displayName is missing", () => {
@@ -106,6 +117,9 @@ describe("buildMatchName", () => {
     expect(nullUser).toBe("Match");
   });
 });
+
+// ------------------ TESTS FOR buildMessageViewModel ------------------
+// Ensures correct UI formatting of chat bubbles: "You:" + styling for own messages
 
 describe("buildMessageViewModel", () => {
   test("marks message as from 'me' and prefixes 'You: ' when senderId matches currentUid", () => {
@@ -149,6 +163,9 @@ describe("buildMessageViewModel", () => {
     expect(viewModel.text).toBe("");
   });
 });
+
+// ------------------ TESTS FOR canSendMessage ------------------
+// Determines whether the Send button should work (validation)
 
 describe("canSendMessage", () => {
   test("returns true when currentUser, matchedUser, chatId, and non-empty text are provided", () => {
@@ -209,6 +226,9 @@ describe("canSendMessage", () => {
   });
 });
 
+// ------------------ TESTS FOR createMessagePayload ------------------
+// Makes sure the Firebase message object is formatted correctly before writing to DB
+
 describe("createMessagePayload", () => {
   test("builds a payload matching the expected Firestore structure and trims text", () => {
     const fakeTimestamp = { seconds: 123, nanoseconds: 456 };
@@ -218,20 +238,20 @@ describe("createMessagePayload", () => {
       { uid: "receiver" },
       "sender_receiver",
       "  message text  ",
-      () => fakeTimestamp
+      () => fakeTimestamp     // timestampFn stubbed for test
     );
 
     expect(payload).toEqual({
       chatId: "sender_receiver",
       senderId: "sender",
       receiverId: "receiver",
-      text: "message text", // trimmed
+      text: "message text", // trimmed input text
       createdAt: fakeTimestamp
     });
   });
 
   test("throws if canSendMessage rules are not satisfied", () => {
-    // invalid text
+    // invalid text (only whitespace)
     expect(() =>
       createMessagePayload(
         { uid: "sender" },
