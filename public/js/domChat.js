@@ -1,4 +1,4 @@
-/***** firebase imports *****/
+/***** Firebase imports *****/
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
 import {
@@ -30,13 +30,13 @@ const firebaseConfig = {
   measurementId: "G-RJ43F0SQG5",
 };
 
-/***** INITIALIZE FIREBASE *****/
+/***** Initialize firebase *****/
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/***** DOM ELEMENTS *****/
+/***** DOM elements *****/
 const chatTitle = document.getElementById("chat-title");
 const chatProfileName = document.getElementById("chat-profile-name");
 const chatImage = document.getElementById("chat-image");
@@ -45,19 +45,19 @@ const messagesContainer = document.getElementById("messages");
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message-input");
 
-/***** STATE *****/
+/***** state *****/
 let currentUser = null;
 let matchedUser = null;
 let chatId = null; // combination of two uids
 let unsubscribeMessages = null;
 
-/***** UTILITY: BUILD CHAT ID FOR TWO USERS *****/
+/***** Building chat ID for users *****/
 function getChatIdForUsers(uid1, uid2) {
   // deterministic ordering so both users compute the same chatId
   return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
 }
 
-/***** SET UP UI FROM LOCALSTORAGE (OPTIONAL) *****/
+/***** setting up the UI for local Storage *****/
 const storedName = localStorage.getItem("name");
 const storedProfilePic = localStorage.getItem("profilepic");
 
@@ -71,7 +71,7 @@ if (storedProfilePic) {
   chatProfileImage.src = storedProfilePic;
 }
 
-/***** AUTH STATE LISTENER *****/
+/***** authentication state listener *****/
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     console.log("No user signed in. Redirecting to login...");
@@ -89,7 +89,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-/***** LOAD CURRENT USER + FIND MATCH *****/
+/***** loading a current user and matching  *****/
 async function loadCurrentUserAndMatch() {
   // Load current user's profile
   const userDocRef = doc(db, "users", currentUser.uid);
@@ -168,7 +168,7 @@ async function loadCurrentUserAndMatch() {
   listenForMessages();
 }
 
-/***** LISTEN FOR MESSAGES FOR THIS CHAT *****/
+/***** listening for messages in this chat *****/
 function listenForMessages() {
   if (!chatId) return;
 

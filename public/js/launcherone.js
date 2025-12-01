@@ -1,34 +1,32 @@
-/* Comp 3450 Authors: Oleanna San Antonio, Nilam Rai, Adebayo Jesutofunmi Juliet*/
-
 /* Profile JS */
 function editProfile() {
-    var profileInputs = document.querySelectorAll('.profile-input');
-    var profileValues = document.querySelectorAll('.profile-info-value');
-    var saveButton = document.querySelector('.saveButton');
-    var editProfileButton = document.querySelector('.edit-profile-btn');
+  var profileInputs = document.querySelectorAll(".profile-input");
+  var profileValues = document.querySelectorAll(".profile-info-value");
+  var saveButton = document.querySelector(".saveButton");
+  var editProfileButton = document.querySelector(".edit-profile-btn");
 
-    if (profileInputs[0].style.display === "none") {
-        // Switch to edit mode
-        profileInputs.forEach(input => input.style.display = "inline");
-        profileValues.forEach(value => value.style.display = "none");
-        saveButton.style.display = "block";
-        editProfileButton.style.display = "none";
-    } else {
-        // Switch back to display mode
-        profileInputs.forEach(input => input.style.display = "none");
-        profileValues.forEach(value => value.style.display = "inline");
-        saveButton.style.display = "none";
-        editProfileButton.style.display = "block";
-    }
+  if (profileInputs[0].style.display === "none") {
+    // Switch to edit mode
+    profileInputs.forEach((input) => (input.style.display = "inline"));
+    profileValues.forEach((value) => (value.style.display = "none"));
+    saveButton.style.display = "block";
+    editProfileButton.style.display = "none";
+  } else {
+    // Switch back to display mode
+    profileInputs.forEach((input) => (input.style.display = "none"));
+    profileValues.forEach((value) => (value.style.display = "inline"));
+    saveButton.style.display = "none";
+    editProfileButton.style.display = "block";
+  }
 }
 
 function previewProfilePicture(event) {
-    var reader = new FileReader();
-    reader.onload = function () {
-        var output = document.getElementById('profile-image-preview');
-        output.src = reader.result;
-    }
-    reader.readAsDataURL(event.target.files[0]);
+  var reader = new FileReader();
+  reader.onload = function () {
+    var output = document.getElementById("profile-image-preview");
+    output.src = reader.result;
+  };
+  reader.readAsDataURL(event.target.files[0]);
 }
 
 /* Create and View Listing JS -- will not be used in alpha prototype */
@@ -129,43 +127,41 @@ function previewProfilePicture(event) {
 /* CHAT JS */
 
 document.addEventListener("DOMContentLoaded", function () {
-    const messageForm = document.getElementById("message-form");
-    const messageInput = document.getElementById("message-input");
-    const messages = document.getElementById("messages");
+  const messageForm = document.getElementById("message-form");
+  const messageInput = document.getElementById("message-input");
+  const messages = document.getElementById("messages");
 
-    // Function to handle message submission
-    messageForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const message = messageInput.value.trim();
-        if (message !== "") {
-            const div = document.createElement("div");
-            div.textContent = message;
-            messages.appendChild(div);
-            // Scroll to the bottom of the messages div to show the latest message
-            messages.scrollTop = messages.scrollHeight;
-            messageInput.value = "";
-        }
-    });
+  // Function to handle message submission
+  messageForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const message = messageInput.value.trim();
+    if (message !== "") {
+      const div = document.createElement("div");
+      div.textContent = message;
+      messages.appendChild(div);
+      // Scroll to the bottom of the messages div to show the latest message
+      messages.scrollTop = messages.scrollHeight;
+      messageInput.value = "";
+    }
+  });
 });
 
 /* SETTINGS JS */
 
 function toggleFAQ() {
-    var faqSection = document.getElementById("faq-section");
-    var faqLink = document.getElementById("faq-link");
-    var section1 = document.getElementById("section1");
+  var faqSection = document.getElementById("faq-section");
+  var faqLink = document.getElementById("faq-link");
+  var section1 = document.getElementById("section1");
 
-    if (faqSection.style.display === "none") {
-        faqSection.style.display = "block";
-        section1.classList.add("expanded");
-        faqLink.classList.add("expanded");
-    } else {
-        faqSection.style.display = "none";
-        section1.classList.remove("expanded");
-        faqLink.classList.remove("expanded");
-    }
+  if (faqSection.style.display === "none") {
+    faqSection.style.display = "block";
+    section1.classList.add("expanded");
+    faqLink.classList.add("expanded");
+  } else {
+    faqSection.style.display = "none";
+    section1.classList.remove("expanded");
+    faqLink.classList.remove("expanded");
+  }
 }
 
 //js code for chat functionality
-
-

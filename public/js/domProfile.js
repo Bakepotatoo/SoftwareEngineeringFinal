@@ -115,22 +115,6 @@ auth.onAuthStateChanged(async (user) => {
   }
 });
 
-//   auth.onAuthStateChanged((user) => {
-//     if (user) {
-//       // User is signed in, fetch user data from Firebase Authentication
-//       const username = user.email;
-
-//       // Set the username to the profile HTML element
-//       const usernameElement = document.getElementById("emailValue");
-//       if (usernameElement) {
-//         usernameElement.innerText = username;
-//       }
-//     } else {
-//       // No user is signed in, handle this case if necessary
-//       console.log("No user signed in");
-//     }
-//   });
-
 var profileInputs = document.querySelectorAll(".profile-input");
 var profileValues = document.querySelectorAll(".profile-info-value");
 var saveButton = document.querySelector(".saveButton");
@@ -198,7 +182,7 @@ const savePref = async () => {
   }
 
   // Create a reference to the user's profile in the database
-  //   var userRef = ref(database, "users/" + user.uid);
+  var userRef = ref(database, "users/" + user.uid);
 
   //save to Firestore under users/{uid}
   try {
@@ -226,44 +210,6 @@ const savePref = async () => {
   } catch (error) {
     console.error("Error saving profile:", error);
   }
-
-  //     // Set the profile data in the database
-  //     set(userRef, {
-  //       name: name,
-  //       bio: bio,
-  //       age: age,
-  //       universityYear: universityYear,
-  //       gender: gender,
-  //       roommatePreference: roommatePreference,
-  //       location: location,
-  //       petFriendly: petFriendly,
-  //       accommodationType: accommodationType,
-  //       studentStatus: studentStatus,
-  //       minBudget: minBudget,
-  //       maxBudget: maxBudget,
-  //       profileImageUrl: profileImageUrl,
-  //     })
-  //       .then(() => {
-  //         console.log("Profile saved successfully");
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error saving profile:", error);
-  //       });
-
-  //     if (profileInputs[0].style.display === "none") {
-  //       // Switch to edit mode
-  //       profileInputs.forEach((input) => (input.style.display = "inline"));
-  //       profileValues.forEach((value) => (value.style.display = "none"));
-  //       saveButton.style.display = "block";
-  //       editProfileButton.style.display = "none";
-  //     } else {
-  //       // Switch back to display mode
-  //       profileInputs.forEach((input) => (input.style.display = "none"));
-  //       profileValues.forEach((value) => (value.style.display = "inline"));
-  //       saveButton.style.display = "none";
-  //       editProfileButton.style.display = "block";
-  //       document.querySelector(".profile-links").style.display = "block";
-  //     }
 };
 
 saveButton.addEventListener("click", savePref);

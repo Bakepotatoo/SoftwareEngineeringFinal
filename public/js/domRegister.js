@@ -14,10 +14,6 @@ import {
   setDoc,
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBdneNSullE_FsSHc17pXxbr5SWxu-OFjw",
   authDomain: "software-engineering-43ebc.firebaseapp.com",
@@ -34,10 +30,6 @@ const auth = getAuth(app);
 
 //reference to cloud firestore
 const db = getFirestore(app);
-
-// Initialize Firebase
-//   const app = initializeApp(firebaseConfig);
-//   const auth = getAuth(app);
 
 const userEmail = document.querySelector("#email");
 const userPassword = document.querySelector("#password");
