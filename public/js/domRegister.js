@@ -44,31 +44,64 @@ const register = async () => {
   const signUpUsername = userName.value;
   const signUpPasswordConfirmation = passwordConfirmation.value;
 
-  if (signUpPassword != signUpPasswordConfirmation) {
-    alert(
-      "Passwords do not match. Please enter the same passwords in both fields."
-    );
+  if (signUpPassword !== signUpPasswordConfirmation) {
+    alert("Passwords do not match. Please enter the same passwords in both fields.");
     return;
   }
 
-  createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user);
-      alert("Your account has been created!");
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      signUpEmail,
+      signUpPassword
+    );
+    const user = userCredential.user;
 
-      // Firestore only
-      addUserToFirestore(user.uid, signUpUsername, signUpEmail);
+    alert("Your account has been created!");
 
-      // go to profile page
-      window.location.href = "launcherone_profile.html";
-    })
-    .catch((error) => {
-      console.error("Sign up error: " + error.message);
-    });
+    // make sure Firestore write finishes
+    await addUserToFirestore(user.uid, signUpUsername, signUpEmail);
 
-  console.log("User saved to Firestore (request sent)");
+    // go to profile page
+    window.location.href = "launcherone_profile.html";
+  } catch (error) {
+    console.error("Sign up error:", error.message);
+    alert("Sign up failed: " + error.message);
+  }
 };
+
+
+// const register = async () => {
+//   const signUpEmail = userEmail.value;
+//   const signUpPassword = userPassword.value;
+//   const signUpUsername = userName.value;
+//   const signUpPasswordConfirmation = passwordConfirmation.value;
+
+//   if (signUpPassword != signUpPasswordConfirmation) {
+//     alert(
+//       "Passwords do not match. Please enter the same passwords in both fields."
+//     );
+//     return;
+//   }
+
+//   createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+//     .then((userCredential) => {
+//       const user = userCredential.user;
+//       console.log(user);
+//       alert("Your account has been created!");
+
+//       // Firestore only
+//       addUserToFirestore(user.uid, signUpUsername, signUpEmail);
+
+//       // go to login page
+//       window.location.href = "launcherone_register.html";
+//     })
+//     .catch((error) => {
+//       console.error("Sign up error: " + error.message);
+//     });
+
+//   console.log("User saved to Firestore (request sent)");
+// };
 
 signUpButton.addEventListener("click", register);
 
