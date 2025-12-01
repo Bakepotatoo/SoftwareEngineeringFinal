@@ -1,14 +1,7 @@
-// chatFunctionality.js
-// Pure logic extracted from domchat.js for unit testing with Jest.
-// These functions contain NO DOM access and NO Firebase calls — making them testable in isolation.
-// This supports TDD and CI/CD pipelines where real Firebase access should not be required.
-
 // ---------- CHAT ID LOGIC ----------
 
 /**
  * Deterministically build the chat ID for two users.
- * Mirrors:
- *   uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`
  *
  * Ensures both users derive the same chatId.
  * Used in domChat.js to store and fetch message threads between two users.
@@ -48,22 +41,18 @@ export function pickMatchedUser(currentUid, candidates) {
   if (!currentUid || !Array.isArray(candidates)) return null;
 
   for (const candidate of candidates) {
-    if (!candidate) continue;         // ignore null/undefined entries
-    if (!candidate.uid) continue;    // ignore invalid user objects
-    if (candidate.uid === currentUid) continue;   // avoid matching with self
+    if (!candidate) continue; // ignore null/undefined entries
+    if (!candidate.uid) continue; // ignore invalid user objects
+    if (candidate.uid === currentUid) continue; // avoid matching with self
 
-    return candidate;   // Return first valid match
+    return candidate; // Return first valid match
   }
 
-  return null;    // No match found
+  return null; // No match found
 }
 
 /**
  * Builds a readable display name for matched user UI.
- * Prioritizes:
- *  1️⃣ displayName
- *  2️⃣ firstName + lastName
- *  3️⃣ fallback: "Match"
  *
  * This ensures a name always appears in chat UI.
  *
@@ -73,11 +62,7 @@ export function pickMatchedUser(currentUid, candidates) {
 export function buildMatchName(user) {
   if (!user) return "Match";
 
-  const {
-    displayName,
-    firstName,
-    lastName
-  } = user;
+  const { displayName, firstName, lastName } = user;
 
   // Most preferred UI option
   if (displayName && displayName.trim()) {
@@ -161,24 +146,25 @@ export function createMessagePayload(
   text,
   timestampFn
 ) {
-  
   // Ensure message is valid before creating object
   if (!canSendMessage(currentUser, matchedUser, chatId, text)) {
-    throw new Error("Cannot create payload: invalid user, match, chatId, or text.");
+    throw new Error(
+      "Cannot create payload: invalid user, match, chatId, or text."
+    );
   }
 
   const trimmed = text.trim();
-  const createdAt = typeof timestampFn === "function"
-    ? timestampFn()  // Firestore server timestamp
-    : timestampFn;   // Accept static timestamp in Jest tests
+  const createdAt =
+    typeof timestampFn === "function"
+      ? timestampFn() // Firestore server timestamp
+      : timestampFn; // Accept static timestamp in Jest tests
 
-  
   // Data format consistent with Firestore "messages" collection structure
   return {
     chatId,
     senderId: currentUser.uid,
     receiverId: matchedUser.uid,
     text: trimmed,
-    createdAt
+    createdAt,
   };
 }

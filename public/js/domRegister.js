@@ -45,7 +45,9 @@ const register = async () => {
   const signUpPasswordConfirmation = passwordConfirmation.value;
 
   if (signUpPassword !== signUpPasswordConfirmation) {
-    alert("Passwords do not match. Please enter the same passwords in both fields.");
+    alert(
+      "Passwords do not match. Please enter the same passwords in both fields."
+    );
     return;
   }
 
@@ -69,39 +71,6 @@ const register = async () => {
     alert("Sign up failed: " + error.message);
   }
 };
-
-
-// const register = async () => {
-//   const signUpEmail = userEmail.value;
-//   const signUpPassword = userPassword.value;
-//   const signUpUsername = userName.value;
-//   const signUpPasswordConfirmation = passwordConfirmation.value;
-
-//   if (signUpPassword != signUpPasswordConfirmation) {
-//     alert(
-//       "Passwords do not match. Please enter the same passwords in both fields."
-//     );
-//     return;
-//   }
-
-//   createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
-//     .then((userCredential) => {
-//       const user = userCredential.user;
-//       console.log(user);
-//       alert("Your account has been created!");
-
-//       // Firestore only
-//       addUserToFirestore(user.uid, signUpUsername, signUpEmail);
-
-//       // go to login page
-//       window.location.href = "launcherone_register.html";
-//     })
-//     .catch((error) => {
-//       console.error("Sign up error: " + error.message);
-//     });
-
-//   console.log("User saved to Firestore (request sent)");
-// };
 
 signUpButton.addEventListener("click", register);
 
