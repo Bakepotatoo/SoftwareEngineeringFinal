@@ -7,7 +7,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": " cross-env NODE_OPTIONS=--experimental-vm-modules jest tests/chatFunctionality.test.js "
+    "test": " set \" NODE_OPTIONS=--experimental-vm-modules\" && jest tests/chatFunctionality.test.js "
   },
   "keywords": [],
   "author": "",
