@@ -1,64 +1,88 @@
 /**
- * Unit tests for profileFunctionality.js
- * 
- * These tests verify:
- * 1. The routing logic after a user submits or loads a profile.
- * 2. The input validation logic for profile fields.
- * 
- * Ensures correctness, prevents regression, and guarantees
- * predictable behavior when teammates integrate this module.
+ * profileFunctionality.js
+ *
+ * Contains pure logic functions for:
+ * 1. Deciding the correct post-profile route.
+ * 2. Validating profile input fields before saving.
+ *
+ * These functions do NOT interact with DOM or Firebase directly,
+ * making them fully testable and reusable across the application.
  */
-
-import {
-  decidePostProfileRoute,
-  validateProfileInputs,
-} from "../public/js/profileFunctionality.js";
 
 /**
- * Test: decidePostProfileRoute()
+ * Determines which page the user should navigate to
+ * after profile data is loaded or saved.
  *
- * This function determines which page the user should be sent to
- * depending on whether their profile is completed or not.
+ * @param {Object|null} profileDocData - Firestore document data for the user.
+ * @returns {string} - The HTML page the user should navigate to.
+ *
+ * Rules:
+ * - If profileCompleted === true → matches page.
+ * - Otherwise → stay on profile page.
+ * - If no data at all → treat as incomplete.
  */
-test("profileCompleted true goes to matches", () => {
-  // Case 1: Profile is completed → user goes to matches page
-  let route = decidePostProfileRoute({ profileCompleted: true });
-  expect(route).toBe("launcherone_matches.html");
+export function decidePostProfileRoute(profileDocData) {
+  if (!profileDocData) return "launcherone_profile.html";
 
-  // Case 2: Profile exists but is not completed → stay on profile page
-  route = decidePostProfileRoute({ profileCompleted: false });
-  expect(route).toBe("launcherone_profile.html");
+  if (profileDocData.profileCompleted === true) {
+    return "launcherone_matches.html";
+  }
 
-  // Case 3: No profile document at all → default to profile page
-  route = decidePostProfileRoute(null);
-  expect(route).toBe("launcherone_profile.html");
-});
+  return "launcherone_profile.html";
+}
 
 /**
- * Test: validateProfileInputs()
+ * Validates all profile input fields before saving
+ * to ensure the information is complete and meaningful.
  *
- * This function checks that required profile fields are filled
- * and verifies that budget values are logically correct.
+ * @param {Object} profile - Raw profile form values.
+ * @returns {Object} - { isValid: boolean, errors: string[] }
+ *
+ * The `errors` array contains field names that fail validation.
  */
-test("validate profile inputs from user", () => {
-  // Valid profile object (all fields filled + valid budget range)
-  let result = validateProfileInputs({
-    name: "Jane Doe",
-    bio: "2nd year TRU student, looking for a roommate.",
-    age: 21,
-    universityYear: "2nd Year",
-    gender: "Female",
-    roommatePreference: "Female",
-    location: "Lower Sahali",
-    petFriendly: "Any",
-    accommodationType: "2-Bedroom",
-    studentStatus: "Undergraduate",
-    minBudget: 500,
-    maxBudget: 900,
-  });
+export function validateProfileInputs(profile) {
+  const errors = [];
 
-  // Expect no validation errors
-  expect(result.isValid).toBe(true);
-  expect(result.errors.length).toBe(0);
-});
+  // Required text fields
+  if (!profile.name) errors.push("name");
+  if (!profile.bio) errors.push("bio");
+  if (!profile.age) errors.push("age");
+  if (!profile.universityYear) errors.push("universityYear");
+  if (!profile.gender) errors.push("gender");
+  if (!profile.roommatePreference) errors.push("roommatePreference");
+  if (!profile.location) errors.push("location");
+  if (!profile.petFriendly) errors.push("petFriendly");
+  if (!profile.accommodationType) errors.push("accommodationType");
+  if (!profile.studentStatus) errors.push("studentStatus");
+
+  // Budget fields (allow numeric strings but must not be empty)
+  if (
+    profile.minBudget === "" ||
+    profile.minBudget === undefined ||
+    profile.minBudget === null
+  ) {
+    errors.push("minBudget");
+  }
+
+  if (
+    profile.maxBudget === "" ||
+    profile.maxBudget === undefined ||
+    profile.maxBudget === null
+  ) {
+    errors.push("maxBudget");
+  }
+
+  // Budget logic: minBudget should not exceed maxBudget
+  const min = Number(profile.minBudget);
+  const max = Number(profile.maxBudget);
+
+  if (!Number.isNaN(min) && !Number.isNaN(max) && min > max) {
+    errors.push("budgetRange");
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+}
 
